@@ -4,11 +4,13 @@ import Root from '../Leyout/Root';
 import Home from '../pages/Home';
 import Apps from '../pages/Apps';
 import Installation from '../pages/Installation';
+import AppDetails from '../pages/AppDetails';
 
 export const router = createBrowserRouter([
   {
     path: "/",
    Component:Root,
+   hydrateFallbackElement:<p>Loading...</p>,
    children:[
     {   
         path:'/home',
@@ -25,6 +27,10 @@ export const router = createBrowserRouter([
     {
         path:'/installation',
         Component:Installation
+    },
+    {
+        path:'/appdetails/:id',
+        Component:AppDetails
     }
    ]
   },

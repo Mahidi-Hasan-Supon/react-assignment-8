@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaGithub } from "react-icons/fa";
 import logoImg from "../assets/logo.png";
-import { Link } from "react-router";
-import githubImg from "../assets/github.png";
+import { Link, NavLink, } from "react-router";
+
 const Navbar = () => {
+ 
+ 
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -29,42 +32,44 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a>Item 1</a>
+              <a>Home</a>
             </li>
             <li>
-              <a>Parent</a>
+              <a>Apps</a>
             </li>
             <li>
-              <a>Item 3</a>
+              <a>Installation</a>
             </li>
           </ul>
         </div>
 
-        <div className="flex btn btn-ghost text-xl">
+        <Link to='/home' className="flex btn btn-ghost text-xl">
           <img src={logoImg} alt="" className="h-[40px] ml-5" />
           <a className="text-purple-600">HERO.IO</a>
-        </div>
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <Link to="/home" className="ml-2 text-purple-600 font-semibold">
+          <NavLink to="/home" className="ml-2  font-semibold">
             Home
-          </Link>
-          <Link to="/apps" className="ml-2 font-semibold">
+          </NavLink>
+          <NavLink to="/apps" className="ml-5 font-semibold">
             Apps
-          </Link>
-          <Link to="/installation" className="ml-2 font-semibold">
+          </NavLink>
+          <NavLink to="/installation" className="ml-5 font-semibold">
             Installation
-          </Link>
+          </NavLink>
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn  bg-linear-65 from-[#632EE3] to-[#9F62F2] text-white">
-          <a href="https://github.com/Mahidi-Hasan-Supon" target="_blank">
-          <img src={githubImg} className="h-[20px]  w-[20px]" alt="" />
+        <a className="btn  bg-linear-65 from-[#632EE3] to-[#9F62F2] text-white"
+        href="https://github.com/Mahidi-Hasan-Supon" target="_blank">
+         
+        <FaGithub />
+            Contribute
           </a>
-          Contribute
-        </a>
+        
+       
       </div>
     </div>
   );

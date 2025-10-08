@@ -1,2 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+
+a.active{
+    color:#9F62F2;
+    /* text-decoration: underline; */
+    border-bottom: 1px solid #9F62F2;
+}
