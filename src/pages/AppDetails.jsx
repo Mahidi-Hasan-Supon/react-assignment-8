@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useApp from "../hooks/useApp";
 import { RxDownload } from "react-icons/rx";
@@ -17,20 +17,44 @@ import {
 } from "recharts";
 import { ToastContainer, toast } from "react-toastify";
 import appImg from "../assets/App.png";
+import LoadingSpinner from "../compunents/LoadingSpinner";
 
 const AppDetails = () => {
-  const [install, setInstall] = useState(false);
-  const handleInstall = () => {
-    setInstall(true);
-    toast("Installed the app");
-  };
+  
   const { id } = useParams();
   const { app, loading, error } = useApp();
   const ap = app.find((a) => String(a.id) === id);
   console.log(id, ap);
 
+  // use state and local storage
+
+  const [install, setInstall] = useState(false);
+    
+  useEffect(()=>{
+      const appsInstalled = JSON.parse(localStorage.getItem('installed')) || []
+    const alreadyInstalledApp = appsInstalled.find((app)=>app.id === ap?.id);
+    if(alreadyInstalledApp){
+      setInstall(true)
+    }
+  },[ap])
+  const handleInstall = () => {
+    if(!ap) return;
+    // data in local storage
+    const appsInstalled = JSON.parse(localStorage.getItem('installed')) || []
+    const alreadyInstalledApp = appsInstalled.find((app)=>app.id === ap.id);
+    if(!alreadyInstalledApp){
+      appsInstalled.push(ap);
+      localStorage.setItem("installed",JSON.stringify(appsInstalled));
+        toast("Installed the app!!");
+    }
+   
+  
+     setInstall(true);
+  };
+
+
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner></LoadingSpinner>;
   }
   if (!ap) {
     return (
@@ -49,8 +73,9 @@ const AppDetails = () => {
       </div>
     );
   }
-  const { image, title, ratingAvg, downloads, reviews, ratings, description } =
+  const { image, title, ratingAvg, downloads, reviews, ratings, description,size } =
     ap;
+  
   return (
     <div>
       <div className="md:flex my-15 ml-10 gap-5">
@@ -64,7 +89,7 @@ const AppDetails = () => {
             <p>
               <RxDownload className="text-green-400 w-[40px] h-[40px]" />
               Downloads <br />
-              <span className="text-2xl font-bold"> {downloads}</span>
+              <span className="text-2xl font-bold"> {downloads}M</span>
             </p>
             <p>
               <FaStar className="text-[#FF8811] w-[40px] h-[40px]" />
@@ -81,7 +106,7 @@ const AppDetails = () => {
             onClick={handleInstall}
             className="btn bg-[#00D390]  text-white"
           >
-            {install ? "Installed" : "Install Now (291 MB)"}
+            {install ? "Installed" :` Install Now (${size}) MB`}
           </button>
         </div>
       </div>
@@ -91,7 +116,7 @@ const AppDetails = () => {
       {/* recharts */}
       <div className="w-8xl mx-auto ml-7 mr-7">
         <h1 className="text-2xl font-semibold my-3">Ratings</h1>
-        <div className="bg-base-100  h-80 ">
+        <div className="bg-gray-100  h-80 ">
           <ResponsiveContainer>
             <ComposedChart
               layout="vertical"

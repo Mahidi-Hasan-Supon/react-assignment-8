@@ -14,12 +14,12 @@ const EightApp = ({ eight }) => {
       </figure>
       <div className="card-body">
         <h2 className="card-title">
-          Title: {title}
+          {title}
           {/* <div className="badge badge-secondary">NEW</div> */}
         </h2>
         <div className="card-actions justify-between">
           <div className="text-[#00D390] bg-gray-100  w-[60px] flex items-center justify-between gap-1 rounded-md">
-            <FaArrowDown /> {downloads}
+            <FaArrowDown /> {downloads}M
           </div>
           <div className="bg-[#FF881130] text-[#FF8811] w-[50px] flex items-center justify-center gap-1 rounded-md items-center">
             <FaStar /> {ratingAvg}

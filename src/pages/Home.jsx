@@ -9,7 +9,9 @@ const Home = () => {
   const { app, loading, error } = useApp();
   const eightApp = app.slice(0, 8);
   console.log(eightApp);
-
+ if(loading){
+  return <LoadingSpinner></LoadingSpinner>
+ }
   return (
     <div className="my-5">
       <Banner></Banner>
