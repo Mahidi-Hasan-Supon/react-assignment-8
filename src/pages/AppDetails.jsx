@@ -1,20 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import useApp from "../hooks/useApp";
 import { RxDownload } from "react-icons/rx";
 import { FaStar } from "react-icons/fa";
 import like from "../assets/like.png";
-import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  CartesianGrid,
+  ComposedChart,
+  Legend,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { ToastContainer, toast } from "react-toastify";
+import appImg from "../assets/App.png";
 
 const AppDetails = () => {
+  const [install, setInstall] = useState(false);
+  const handleInstall = () => {
+    setInstall(true);
+    toast("Installed the app");
+  };
   const { id } = useParams();
   const { app, loading, error } = useApp();
   const ap = app.find((a) => String(a.id) === id);
   console.log(id, ap);
+
   if (loading) {
     return <p>Loading...</p>;
   }
-  const { image, title, ratingAvg, downloads, reviews,ratings,description } = ap;
+  if (!ap) {
+    return (
+      <div>
+        <div className="w-md mx-auto text-center my-5">
+          <img src={appImg} alt="" />
+          <h1 className="text-2xl font-semibold">OPPS!! APP NOT FOUND</h1>
+          <p className="opacity-50">
+            The App you are requesting is not found on our system. please try
+            another apps
+          </p>
+          <button className="btn text-white bg-linear-to-r from-[#632EE3] to-[#9F62F2]">
+            Go back
+          </button>
+        </div>
+      </div>
+    );
+  }
+  const { image, title, ratingAvg, downloads, reviews, ratings, description } =
+    ap;
   return (
     <div>
       <div className="md:flex my-15 ml-10 gap-5">
@@ -41,8 +77,11 @@ const AppDetails = () => {
               <span className="text-2xl font-bold"> {reviews}</span>
             </p>
           </div>
-          <button className="btn bg-[#00D390]  text-white">
-            Install Now (291 MB)
+          <button
+            onClick={handleInstall}
+            className="btn bg-[#00D390]  text-white"
+          >
+            {install ? "Installed" : "Install Now (291 MB)"}
           </button>
         </div>
       </div>
@@ -59,12 +98,12 @@ const AppDetails = () => {
               width={500}
               height={400}
               data={ratings}
-            //   margin={{
-            //     top: 20,
-            //     right: 20,
-            //     bottom: 20,
-            //     left: 20,
-            //   }}
+              //   margin={{
+              //     top: 20,
+              //     right: 20,
+              //     bottom: 20,
+              //     left: 20,
+              //   }}
             >
               <CartesianGrid stroke="#f5f5f5" />
               <XAxis type="number" />
@@ -72,7 +111,7 @@ const AppDetails = () => {
               <Tooltip />
               <Legend />
               {/* <Area dataKey="amt" fill="#8884d8" stroke="#8884d8" /> */}
-              <Bar dataKey="count" barSize={20} fill="#FF8811" name=''/>
+              <Bar dataKey="count" barSize={20} fill="#FF8811" name="" />
               <Line dataKey="uv" stroke="#ff7300" />
             </ComposedChart>
           </ResponsiveContainer>
@@ -80,11 +119,13 @@ const AppDetails = () => {
       </div>
 
       <div className="border-t opacity-50 border-gray-400 py-5 ml-7 mr-7 mx-auto"></div>
-      <div className="ml-7 mr-7 my-5"> 
-        <p ><span className="text-xl font-semibold">Description</span> <br />
-            <span className="opacity-50">{description}</span>
+      <div className="ml-7 mr-7 my-5">
+        <p>
+          <span className="text-xl font-semibold">Description</span> <br />
+          <span className="opacity-50">{description}</span>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };

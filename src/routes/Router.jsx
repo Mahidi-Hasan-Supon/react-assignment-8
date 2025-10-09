@@ -5,12 +5,15 @@ import Home from '../pages/Home';
 import Apps from '../pages/Apps';
 import Installation from '../pages/Installation';
 import AppDetails from '../pages/AppDetails';
+import Error from '../pages/Error';
+import LoadingSpinner from '../compunents/LoadingSpinner';
 
 export const router = createBrowserRouter([
   {
     path: "/",
    Component:Root,
-   hydrateFallbackElement:<p>Loading...</p>,
+   hydrateFallbackElement:<LoadingSpinner></LoadingSpinner>,
+   errorElement:<Error></Error>,
    children:[
     {   
         path:'/home',

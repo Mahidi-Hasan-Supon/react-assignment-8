@@ -1,16 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useApp from "../hooks/useApp";
 import { FaStar } from "react-icons/fa";
 import { FaArrowDown } from "react-icons/fa";
 import { Link } from "react-router";
+import LoadingSpinner from "../compunents/LoadingSpinner";
 const Apps = () => {
-  const { app } = useApp();
+  const { app,loading,error } = useApp();
   console.log(app);
   const [search, setSearch] = useState("");
-  const trm = search.trim().toLocaleLowerCase();
-  const appSearch = trm
-    ? app.filter((a) => a.title.toLocaleLowerCase().includes(trm))
-    : app;
+  const [isSearch,setIsSearch] = useState(false)
+  const [appSearch,setAppSearch] = useState([])
+  useEffect(()=>{
+    if(!search.trim()){
+      setAppSearch(app);
+      setIsSearch(false);
+      return;
+    }
+    setIsSearch(true);
+    const timeout = setTimeout(()=>{
+    const trm = search.trim().toLocaleLowerCase();
+  const filtered = 
+    app.filter((a) => a.title.toLocaleLowerCase().includes(trm));
+    setAppSearch(filtered);
+    setIsSearch(false);
+    },800);
+    return ()=> clearTimeout(timeout)
+  },[search,app]);
+  if(error){
+    return(
+      <div>someting went wrong</div>
+    )
+  }
+
+   if(loading){
+    return <LoadingSpinner></LoadingSpinner>
+   }
   console.log(appSearch);
   return (
     <div className="my-10">
@@ -34,7 +58,7 @@ const Apps = () => {
         </label>
       </div>
 
-      {appSearch.length === 0 ? (
+      {isSearch?(<LoadingSpinner></LoadingSpinner>): appSearch.length === 0 ? (
         <p className="grid-cols-1 text-center text-5xl font-bold text-cyan-400">
           No App Found
         </p>

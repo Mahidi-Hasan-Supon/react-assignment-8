@@ -4,7 +4,7 @@ import { FaArrowDown } from "react-icons/fa";
 import { Link } from "react-router";
 
 const EightApp = ({ eight }) => {
-  console.log(eight);
+  // console.log(eight);
   const { image, title, downloads, ratingAvg } = eight;
   return (
     <>
